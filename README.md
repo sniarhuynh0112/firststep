@@ -4,10 +4,29 @@ Một trang khảo sát người dùng nhỏ xinh với phong cách chibi: **"B�
 
 ## Tính năng
 
-- Câu hỏi với 2 lựa chọn: **Mèooo** và **Choóo**, kèm hình mèo và chó chibi vẽ bằng SVG
-- Hiệu ứng lắc lư khi rê chuột và tim bay khi chọn
-- Màn hình cảm ơn theo lựa chọn, có nút **Chọn lại**
+- Câu hỏi rẽ nhánh: mỗi lựa chọn dẫn tới câu hỏi tiếp theo
+- Hình mèo, chó chibi vẽ bằng SVG, đổi màu lông theo từng giống (tam thể, mướp, mun, Corgi, Shiba, đốm…)
+- Nút **← Quay lại**, thanh tiến trình dấu chân 🐾, hiệu ứng tim bay
+- Màn hình kết quả tóm tắt các lựa chọn, ví dụ: *"Bạn hợp với một bé tam thể chuyên ngủ nướng đó!"*
 - Hiển thị tốt trên điện thoại
+
+## Cây câu hỏi
+
+```
+Bạn thích mèo hay thích chó?
+├── Mèooo → Loại mèo?
+│   ├── Mèo ta → Tam thể · Mèo mướp · Mèo vàng · Mèo mun
+│   ├── Mèo Anh lông ngắn · Mèo Ba Tư · Mèo Xiêm
+│   └──► Tính cách: Lười ngủ · Nghịch phá · Bám người
+└── Choóo → Loại chó?
+    ├── Chó ta → Vàng · Vện · Mực · Đốm
+    ├── Corgi · Shiba · Poodle
+    └──► Kích cỡ: Nhỏ xíu · Vừa ôm · To bự
+```
+
+### Thêm / sửa nhánh
+
+Toàn bộ câu hỏi nằm trong biến `TREE` ở cuối `index.html`. Mỗi lựa chọn có `next` trỏ tới id câu hỏi tiếp theo; bỏ `next` thì lựa chọn đó kết thúc khảo sát. Màu lông của từng giống nằm trong biến `LOOKS`.
 
 ## Cấu trúc
 
@@ -25,8 +44,8 @@ Mở trực tiếp `index.html` bằng trình duyệt, hoặc xem qua GitHub Pag
 ## Kế hoạch
 
 - [x] Trang câu hỏi đầu tiên
+- [x] Câu hỏi rẽ nhánh theo loại mèo / chó
 - [ ] Lưu và thống kê kết quả khảo sát
-- [ ] Thêm các câu hỏi tiếp theo
 
 ## Tác giả
 

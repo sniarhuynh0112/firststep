@@ -16,11 +16,6 @@
       --ink-soft: #9a7486;
       --pink: #ff8fb1;
       --pink-deep: #f0628f;
-      --cat: #ffd27a;
-      --cat-deep: #f2a93b;
-      --dog: #b9e3ff;
-      --dog-deep: #5fb0e8;
-      --shadow: 0 8px 0 rgba(240, 98, 143, 0.18);
     }
 
     * { box-sizing: border-box; }
@@ -36,19 +31,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
+      padding: 32px 16px;
       overflow-x: hidden;
     }
 
     .card {
       position: relative;
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       background: var(--card);
       border: 4px solid var(--ink);
       border-radius: 36px;
       box-shadow: 0 10px 0 var(--ink);
-      padding: 40px 28px 32px;
+      padding: 44px 28px 52px;
       text-align: center;
     }
 
@@ -68,89 +63,135 @@
       white-space: nowrap;
     }
 
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 36px;
+      margin-bottom: 4px;
+    }
+
+    .back {
+      font: inherit;
+      font-weight: 700;
+      color: var(--ink);
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      padding: 0 14px;
+      height: 36px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--ink);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .back:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+    .back:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); }
+    .back[hidden] { display: inline-block; visibility: hidden; }
+
+    .paws {
+      font-size: 1.05rem;
+      letter-spacing: 2px;
+      color: var(--ink-soft);
+      font-weight: 700;
+    }
+    .paws .on { filter: none; }
+    .paws .off { filter: grayscale(1); opacity: 0.3; }
+
+    .step { animation: pop 0.4s cubic-bezier(.2,1.5,.4,1); }
+    @keyframes pop {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
     h1 {
-      font-size: clamp(1.6rem, 6vw, 2.3rem);
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
       font-weight: 800;
       line-height: 1.2;
-      margin: 8px 0 6px;
+      margin: 6px 0 4px;
     }
 
     .sub {
       color: var(--ink-soft);
-      margin: 0 0 28px;
+      margin: 0 0 24px;
       font-size: 1.05rem;
     }
 
     .choices {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
+    .choices.n3 { grid-template-columns: repeat(3, 1fr); }
 
     .choice {
       font: inherit;
       color: var(--ink);
       cursor: pointer;
       border: 4px solid var(--ink);
-      border-radius: 28px;
-      padding: 18px 10px 14px;
-      box-shadow: 0 7px 0 var(--ink);
+      border-radius: 26px;
+      padding: 14px 8px 10px;
+      box-shadow: 0 6px 0 var(--ink);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 4px;
     }
-    .choice.cat { background: var(--cat); }
-    .choice.dog { background: var(--dog); }
-
-    .choice:hover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 11px 0 var(--ink); }
-    .choice.dog:hover { transform: translateY(-4px) rotate(2deg); }
-    .choice:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--ink); }
+    .choice:nth-child(odd):hover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 10px 0 var(--ink); }
+    .choice:nth-child(even):hover { transform: translateY(-4px) rotate(2deg); box-shadow: 0 10px 0 var(--ink); }
+    .choice:active { transform: translateY(5px) !important; box-shadow: 0 1px 0 var(--ink) !important; }
     .choice:focus-visible { outline: 4px dashed var(--pink-deep); outline-offset: 4px; }
 
-    .choice svg { width: 100%; max-width: 130px; height: auto; }
-    .choice:hover svg { animation: wiggle 0.5s ease-in-out infinite; }
+    .choice svg { width: 100%; max-width: 92px; height: auto; }
+    .big .choice svg { max-width: 130px; }
+    .choice:hover svg, .choice:hover .emoji { animation: wiggle 0.5s ease-in-out infinite; }
 
-    .choice .label {
-      font-size: clamp(1.4rem, 5vw, 1.8rem);
+    .emoji { font-size: 3rem; line-height: 1.1; display: inline-block; }
+
+    .label {
+      font-size: 1.15rem;
       font-weight: 800;
+      line-height: 1.15;
     }
+    .big .label { font-size: clamp(1.4rem, 5vw, 1.8rem); }
 
     @keyframes wiggle {
       0%, 100% { transform: rotate(0); }
       25% { transform: rotate(-6deg); }
       75% { transform: rotate(6deg); }
     }
-
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
 
-    /* Result screen */
-    .result { display: none; }
-    .result.show { display: block; animation: pop 0.45s cubic-bezier(.2,1.6,.4,1); }
-    .question.hide { display: none; }
-
-    @keyframes pop {
-      from { transform: scale(0.6); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
+    /* Result */
     .result-pet {
       width: 170px;
       height: auto;
       animation: float 2s ease-in-out infinite;
     }
-
     .result h2 {
       font-size: clamp(1.5rem, 5.5vw, 2rem);
-      margin: 8px 0 4px;
+      margin: 6px 0 10px;
       font-weight: 800;
     }
-
-    .result p { color: var(--ink-soft); margin: 0 0 24px; font-size: 1.1rem; }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .chip {
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      padding: 0 12px;
+      font-weight: 700;
+      background: #fff;
+    }
+    .result p { color: var(--ink-soft); margin: 0 0 24px; font-size: 1.15rem; }
 
     .again {
       font: inherit;
@@ -173,6 +214,7 @@
       pointer-events: none;
       font-size: 1.6rem;
       animation: rise 1.6s ease-out forwards;
+      z-index: 10;
     }
     @keyframes rise {
       from { transform: translateY(0) scale(0.6); opacity: 1; }
@@ -181,15 +223,18 @@
 
     .paw {
       position: absolute;
-      font-size: 1.6rem;
-      opacity: 0.55;
+      font-size: 1.5rem;
+      opacity: 0.5;
     }
-    .paw.p1 { bottom: 14px; left: 18px; transform: rotate(-20deg); }
-    .paw.p2 { bottom: 14px; right: 18px; transform: rotate(20deg); }
+    .paw.p1 { bottom: 12px; left: 18px; transform: rotate(-20deg); }
+    .paw.p2 { bottom: 12px; right: 18px; transform: rotate(20deg); }
 
-    @media (max-width: 400px) {
-      .card { padding: 36px 16px 28px; }
+    @media (max-width: 480px) {
+      .card { padding: 40px 14px 48px; }
       .choices { gap: 12px; }
+      .choices.n3 { grid-template-columns: 1fr; }
+      .choices.n3 .choice { flex-direction: row; gap: 12px; justify-content: flex-start; padding: 10px 16px; }
+      .label { font-size: 1.05rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -198,60 +243,80 @@
   </style>
 </head>
 <body>
-  <!-- Chibi SVGs, reused on both screens -->
+  <!-- Chibi pets. Colors come from CSS variables set on each <svg>, so one drawing covers every breed. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
+      <clipPath id="catHead"><ellipse cx="70" cy="76" rx="58" ry="48"/></clipPath>
+      <clipPath id="dogHead"><ellipse cx="70" cy="72" rx="50" ry="48"/></clipPath>
+
       <symbol id="cat" viewBox="0 0 140 130">
-        <!-- ears -->
-        <path d="M22 58 L30 10 L62 38 Z" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M118 58 L110 10 L78 38 Z" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M22 58 L30 10 L62 38 Z" style="fill:var(--ear-l, var(--fur, #ffe2a8))" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M118 58 L110 10 L78 38 Z" style="fill:var(--ear-r, var(--fur, #ffe2a8))" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
         <path d="M32 44 L35 24 L49 37 Z" fill="#ff9fbf"/>
         <path d="M108 44 L105 24 L91 37 Z" fill="#ff9fbf"/>
-        <!-- head -->
-        <ellipse cx="70" cy="76" rx="58" ry="48" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5"/>
-        <!-- stripes -->
-        <path d="M62 32 q8 8 0 16 M78 32 q-8 8 0 16" stroke="#f2a93b" stroke-width="5" fill="none" stroke-linecap="round"/>
-        <!-- eyes -->
-        <ellipse cx="46" cy="76" rx="11" ry="13" fill="#5b3a4a"/>
-        <ellipse cx="94" cy="76" rx="11" ry="13" fill="#5b3a4a"/>
+        <ellipse cx="70" cy="76" rx="58" ry="48" style="fill:var(--fur, #ffe2a8)"/>
+        <g clip-path="url(#catHead)">
+          <ellipse cx="34" cy="50" rx="34" ry="28" style="fill:var(--p1, transparent)"/>
+          <ellipse cx="110" cy="58" rx="26" ry="24" style="fill:var(--p2, transparent)"/>
+          <ellipse cx="70" cy="96" rx="24" ry="17" style="fill:var(--mask, transparent)"/>
+        </g>
+        <ellipse cx="70" cy="76" rx="58" ry="48" fill="none" stroke="#5b3a4a" stroke-width="5"/>
+        <path d="M62 32 q8 8 0 16 M78 32 q-8 8 0 16" style="stroke:var(--stripe, #f2a93b)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path d="M14 66 q8 3 10 10 M126 66 q-8 3 -10 10" style="stroke:var(--stripe2, transparent)" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="46" cy="76" rx="11" ry="13" style="fill:var(--eye, #5b3a4a)"/>
+        <ellipse cx="94" cy="76" rx="11" ry="13" style="fill:var(--eye, #5b3a4a)"/>
+        <ellipse cx="46" cy="78" rx="4" ry="9" style="fill:var(--pupil, transparent)"/>
+        <ellipse cx="94" cy="78" rx="4" ry="9" style="fill:var(--pupil, transparent)"/>
         <circle cx="50" cy="71" r="4.5" fill="#fff"/>
         <circle cx="98" cy="71" r="4.5" fill="#fff"/>
         <circle cx="43" cy="81" r="2" fill="#fff"/>
         <circle cx="91" cy="81" r="2" fill="#fff"/>
-        <!-- blush -->
         <ellipse cx="30" cy="94" rx="10" ry="6" fill="#ff9fbf" opacity="0.8"/>
         <ellipse cx="110" cy="94" rx="10" ry="6" fill="#ff9fbf" opacity="0.8"/>
-        <!-- nose + mouth -->
         <path d="M66 88 L74 88 L70 93 Z" fill="#f0628f" stroke="#5b3a4a" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M60 97 q5 6 10 0 q5 6 10 0" stroke="#5b3a4a" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <!-- whiskers -->
+        <path d="M60 97 q5 6 10 0 q5 6 10 0" style="stroke:var(--line, #5b3a4a)" stroke-width="4" fill="none" stroke-linecap="round"/>
         <path d="M6 82 L24 86 M8 96 L24 94 M134 82 L116 86 M132 96 L116 94" stroke="#5b3a4a" stroke-width="3.5" stroke-linecap="round"/>
       </symbol>
 
       <symbol id="dog" viewBox="0 0 140 130">
-        <!-- floppy ears -->
-        <path d="M30 34 C8 34 2 66 10 90 C16 104 32 96 34 80 Z" fill="#a8743f" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M110 34 C132 34 138 66 130 90 C124 104 108 96 106 80 Z" fill="#a8743f" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
-        <!-- head -->
-        <ellipse cx="70" cy="72" rx="50" ry="48" fill="#f3d6a8" stroke="#5b3a4a" stroke-width="5"/>
-        <!-- eye spot -->
-        <ellipse cx="94" cy="66" rx="17" ry="18" fill="#d9a86a"/>
-        <!-- eyes -->
+        <g style="opacity:var(--point, 0)">
+          <path d="M26 54 L30 8 L64 30 Z" style="fill:var(--fur, #f3d6a8)" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M114 54 L110 8 L76 30 Z" style="fill:var(--fur, #f3d6a8)" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M34 40 L36 20 L52 31 Z" style="fill:var(--inner-d, #fff3e0)"/>
+          <path d="M106 40 L104 20 L88 31 Z" style="fill:var(--inner-d, #fff3e0)"/>
+        </g>
+        <g style="opacity:var(--flop, 1)">
+          <path d="M30 34 C8 34 2 66 10 90 C16 104 32 96 34 80 Z" style="fill:var(--ear, #a8743f)" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M110 34 C132 34 138 66 130 90 C124 104 108 96 106 80 Z" style="fill:var(--ear, #a8743f)" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        </g>
+        <ellipse cx="70" cy="72" rx="50" ry="48" style="fill:var(--fur, #f3d6a8)"/>
+        <g clip-path="url(#dogHead)">
+          <ellipse cx="94" cy="66" rx="17" ry="18" style="fill:var(--spot, #d9a86a)"/>
+          <circle cx="40" cy="38" r="9" style="fill:var(--spot2, transparent)"/>
+          <circle cx="30" cy="100" r="7" style="fill:var(--spot2, transparent)"/>
+          <circle cx="112" cy="96" r="6" style="fill:var(--spot2, transparent)"/>
+          <path d="M50 30 q6 10 0 20 M70 26 q6 10 0 20 M90 30 q6 10 0 20" style="stroke:var(--dstripe, transparent)" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M70 22 C63 40 63 66 70 80 C77 66 77 40 70 22 Z" style="fill:var(--blaze, transparent)"/>
+          <ellipse cx="38" cy="96" rx="20" ry="14" style="fill:var(--cheek, transparent)"/>
+          <ellipse cx="102" cy="96" rx="20" ry="14" style="fill:var(--cheek, transparent)"/>
+        </g>
+        <ellipse cx="70" cy="72" rx="50" ry="48" fill="none" stroke="#5b3a4a" stroke-width="5"/>
+        <ellipse cx="44" cy="47" rx="6" ry="4" style="fill:var(--brow, transparent)"/>
+        <ellipse cx="96" cy="47" rx="6" ry="4" style="fill:var(--brow, transparent)"/>
+        <ellipse cx="48" cy="68" rx="14" ry="16" style="fill:var(--ring, transparent)"/>
+        <ellipse cx="92" cy="68" rx="14" ry="16" style="fill:var(--ring, transparent)"/>
         <ellipse cx="48" cy="68" rx="10" ry="12" fill="#5b3a4a"/>
         <ellipse cx="92" cy="68" rx="10" ry="12" fill="#5b3a4a"/>
         <circle cx="52" cy="63" r="4.5" fill="#fff"/>
         <circle cx="96" cy="63" r="4.5" fill="#fff"/>
         <circle cx="45" cy="73" r="2" fill="#fff"/>
         <circle cx="89" cy="73" r="2" fill="#fff"/>
-        <!-- blush -->
         <ellipse cx="34" cy="88" rx="9" ry="5.5" fill="#ff9fbf" opacity="0.8"/>
         <ellipse cx="106" cy="88" rx="9" ry="5.5" fill="#ff9fbf" opacity="0.8"/>
-        <!-- muzzle -->
-        <ellipse cx="70" cy="94" rx="22" ry="16" fill="#fff3e0" stroke="#5b3a4a" stroke-width="3.5"/>
+        <ellipse cx="70" cy="94" rx="22" ry="16" style="fill:var(--muzzle, #fff3e0)" stroke="#5b3a4a" stroke-width="3.5"/>
         <ellipse cx="70" cy="85" rx="9" ry="6.5" fill="#5b3a4a"/>
         <circle cx="67" cy="83" r="2.2" fill="#fff"/>
         <path d="M70 91 L70 97 M60 97 q10 8 20 0" stroke="#5b3a4a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-        <!-- tongue -->
         <path d="M65 101 q5 12 10 0 Z" fill="#ff7a9c" stroke="#5b3a4a" stroke-width="2.5" stroke-linejoin="round"/>
       </symbol>
     </defs>
@@ -259,57 +324,208 @@
 
   <main class="card">
     <div class="badge">✿ Khảo sát nhỏ ✿</div>
-
-    <section class="question" id="question">
-      <h1>Bạn thích mèo hay thích chó?</h1>
-      <p class="sub">Chọn một bé nha ~ (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
-
-      <div class="choices">
-        <button class="choice cat" data-pick="cat" type="button">
-          <svg viewBox="0 0 140 130" role="img" aria-label="Mèo chibi"><use href="#cat"/></svg>
-          <span class="label">Mèooo</span>
-        </button>
-        <button class="choice dog" data-pick="dog" type="button">
-          <svg viewBox="0 0 140 130" role="img" aria-label="Chó chibi"><use href="#dog"/></svg>
-          <span class="label">Choóo</span>
-        </button>
-      </div>
-    </section>
-
-    <section class="result" id="result" aria-live="polite">
-      <svg class="result-pet" viewBox="0 0 140 130" aria-hidden="true"><use id="result-use" href="#cat"/></svg>
-      <h2 id="result-title"></h2>
-      <p id="result-text"></p>
-      <button class="again" id="again" type="button">Chọn lại ↺</button>
-    </section>
-
+    <div class="topbar">
+      <button class="back" id="back" type="button" hidden>← Quay lại</button>
+      <span class="paws" id="paws" aria-hidden="true"></span>
+    </div>
+    <div id="stage" aria-live="polite"></div>
     <span class="paw p1" aria-hidden="true">🐾</span>
     <span class="paw p2" aria-hidden="true">🐾</span>
   </main>
 
   <script>
-    const copy = {
-      cat: {
-        title: "Team Mèooo! 🐱",
-        text: "Meo meo~ Bé mèo đang dụi đầu cảm ơn bạn đó!",
-        hearts: ["💛", "🧡", "🐟", "✨"]
+    /* =========================================================
+       CÂY CÂU HỎI — sửa ở đây để thêm / bớt nhánh.
+       Mỗi câu hỏi: q (câu hỏi), sub (dòng phụ), options (lựa chọn).
+       Mỗi lựa chọn:
+         label  – chữ trên nút
+         pet    – "cat" / "dog" để vẽ hình chibi, hoặc emoji – biểu tượng
+         look   – màu lông cho hình chibi (biến CSS)
+         bg     – màu nền nút
+         next   – id câu hỏi tiếp theo; bỏ trống = kết thúc
+         tag    – nhãn hiện ở màn hình kết quả
+         noun / desc – ghép thành câu kết quả
+       ========================================================= */
+    const LOOKS = {
+      catDefault: {},
+      catBritish: { "--fur": "#b9c3d6", "--stripe": "transparent" },
+      catPersian: { "--fur": "#fffaf2", "--stripe": "transparent" },
+      catSiamese: { "--fur": "#fbeedd", "--stripe": "transparent", "--ear-l": "#7a5a48", "--ear-r": "#7a5a48", "--mask": "#9a7560", "--eye": "#5aa7e0", "--line": "#3c2a22" },
+      catCalico:  { "--fur": "#fffaf2", "--p1": "#f2a54a", "--p2": "#4a3a3a", "--ear-l": "#f2a54a", "--ear-r": "#4a3a3a", "--stripe": "transparent" },
+      catTabby:   { "--fur": "#cdbfa8", "--stripe": "#6f5d4b", "--stripe2": "#6f5d4b" },
+      catGinger:  { "--fur": "#ffcf7a", "--stripe": "#e8962e", "--stripe2": "#e8962e" },
+      catBlack:   { "--fur": "#4a4048", "--stripe": "transparent", "--eye": "#f6d25a", "--pupil": "#2b2226", "--line": "#ffd9e4" },
+
+      dogDefault: {},
+      dogCorgi:   { "--fur": "#f2a65a", "--point": "1", "--flop": "0", "--spot": "transparent", "--cheek": "#fffaf2", "--blaze": "#fffaf2", "--inner-d": "#ffb8cc" },
+      dogShiba:   { "--fur": "#d9783a", "--point": "1", "--flop": "0", "--spot": "transparent", "--cheek": "#fffaf2", "--brow": "#fffaf2" },
+      dogPoodle:  { "--fur": "#f3cfb3", "--ear": "#e9b896", "--spot": "transparent" },
+      dogYellow:  { "--fur": "#f5d08a", "--spot": "transparent", "--point": "1", "--flop": "0", "--inner-d": "#e9b05c" },
+      dogBrindle: { "--fur": "#b08a5c", "--ear": "#6e5236", "--spot": "transparent", "--dstripe": "#5e4630" },
+      dogBlack:   { "--fur": "#4a4048", "--ear": "#3a3238", "--spot": "transparent", "--ring": "#fff3e0" },
+      dogSpotty:  { "--fur": "#fffaf2", "--ear": "#4a4048", "--spot": "#4a4048", "--spot2": "#4a4048" }
+    };
+
+    const TREE = {
+      start: {
+        q: "Bạn thích mèo hay thích chó?",
+        sub: "Chọn một bé nha ~ (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+        big: true,
+        options: [
+          { label: "Mèooo", pet: "cat", look: "catDefault", bg: "#ffd27a", next: "catType", tag: "Team Mèooo! 🐱", noun: "một bé mèo" },
+          { label: "Choóo", pet: "dog", look: "dogDefault", bg: "#b9e3ff", next: "dogType", tag: "Team Choóo! 🐶", noun: "một bé chó" }
+        ]
       },
-      dog: {
-        title: "Team Choóo! 🐶",
-        text: "Gâu gâu~ Bé chó vẫy đuôi tít mù vì bạn rồi!",
-        hearts: ["💙", "🦴", "💖", "✨"]
+
+      // ---------- Nhánh MÈO ----------
+      catType: {
+        q: "Bạn thích loại mèo nào?",
+        sub: "Bé nào cũng dễ thương hết á ~",
+        options: [
+          { label: "Mèo ta", pet: "cat", look: "catDefault", bg: "#ffe9b8", next: "catLocal", tag: "Mèo ta", noun: "một bé mèo ta" },
+          { label: "Mèo Anh lông ngắn", pet: "cat", look: "catBritish", bg: "#dde5f3", next: "catPersonality", tag: "Mèo Anh lông ngắn", noun: "một bé mèo Anh lông ngắn" },
+          { label: "Mèo Ba Tư", pet: "cat", look: "catPersian", bg: "#fde2ec", next: "catPersonality", tag: "Mèo Ba Tư", noun: "một bé mèo Ba Tư" },
+          { label: "Mèo Xiêm", pet: "cat", look: "catSiamese", bg: "#e6f4ff", next: "catPersonality", tag: "Mèo Xiêm", noun: "một bé mèo Xiêm" }
+        ]
+      },
+      catLocal: {
+        q: "Bé mèo ta nào làm bạn tan chảy?",
+        sub: "Mèo ta là chân ái ♡",
+        options: [
+          { label: "Tam thể", pet: "cat", look: "catCalico", bg: "#ffe2c4", next: "catPersonality", tag: "Tam thể", noun: "một bé tam thể" },
+          { label: "Mèo mướp", pet: "cat", look: "catTabby", bg: "#ece4d6", next: "catPersonality", tag: "Mèo mướp", noun: "một bé mèo mướp" },
+          { label: "Mèo vàng", pet: "cat", look: "catGinger", bg: "#ffe9b8", next: "catPersonality", tag: "Mèo vàng", noun: "một bé mèo vàng" },
+          { label: "Mèo mun", pet: "cat", look: "catBlack", bg: "#e4dcef", next: "catPersonality", tag: "Mèo mun", noun: "một bé mèo mun" }
+        ]
+      },
+      catPersonality: {
+        q: "Tính cách bé mèo bạn thích?",
+        sub: "Câu cuối rồi nè ~",
+        options: [
+          { label: "Lười ngủ cả ngày", emoji: "😴", bg: "#e4dcef", tag: "Ngủ nướng", desc: "chuyên ngủ nướng" },
+          { label: "Nghịch phá tung nhà", emoji: "😼", bg: "#ffe2c4", tag: "Siêu quậy", desc: "siêu quậy phá tung nhà" },
+          { label: "Bám người, thích được vuốt ve", emoji: "🥰", bg: "#fde2ec", tag: "Dính người", desc: "dính người như keo" }
+        ]
+      },
+
+      // ---------- Nhánh CHÓ ----------
+      dogType: {
+        q: "Bạn thích loại chó nào?",
+        sub: "Gâu gâu, chọn bé nào đây ~",
+        options: [
+          { label: "Chó ta", pet: "dog", look: "dogYellow", bg: "#ffe9b8", next: "dogLocal", tag: "Chó ta", noun: "một bé chó ta" },
+          { label: "Corgi", pet: "dog", look: "dogCorgi", bg: "#ffe2c4", next: "dogSize", tag: "Corgi", noun: "một bé Corgi" },
+          { label: "Shiba", pet: "dog", look: "dogShiba", bg: "#fde2ec", next: "dogSize", tag: "Shiba", noun: "một bé Shiba" },
+          { label: "Poodle", pet: "dog", look: "dogPoodle", bg: "#e6f4ff", next: "dogSize", tag: "Poodle", noun: "một bé Poodle" }
+        ]
+      },
+      dogLocal: {
+        q: "Bé chó ta nào làm bạn tan chảy?",
+        sub: "Chó ta trung thành số một ♡",
+        options: [
+          { label: "Vàng", pet: "dog", look: "dogYellow", bg: "#ffe9b8", next: "dogSize", tag: "Chó vàng", noun: "một bé chó vàng" },
+          { label: "Vện", pet: "dog", look: "dogBrindle", bg: "#ece4d6", next: "dogSize", tag: "Chó vện", noun: "một bé chó vện" },
+          { label: "Mực", pet: "dog", look: "dogBlack", bg: "#e4dcef", next: "dogSize", tag: "Chó mực", noun: "một bé chó mực" },
+          { label: "Đốm", pet: "dog", look: "dogSpotty", bg: "#e6f4ff", next: "dogSize", tag: "Chó đốm", noun: "một bé chó đốm" }
+        ]
+      },
+      dogSize: {
+        q: "Bạn thích bé cỡ nào?",
+        sub: "Câu cuối rồi nè ~",
+        options: [
+          { label: "Nhỏ xíu bỏ túi", emoji: "🤏", bg: "#fde2ec", tag: "Nhỏ xíu", desc: "nhỏ xíu bỏ túi được" },
+          { label: "Vừa vừa ôm được", emoji: "🤗", bg: "#ffe9b8", tag: "Vừa ôm", desc: "vừa vặn để ôm mỗi ngày" },
+          { label: "To bự như gấu", emoji: "🐻", bg: "#e6f4ff", tag: "To bự", desc: "to bự như gấu bông" }
+        ]
       }
     };
 
-    const question = document.getElementById("question");
-    const result = document.getElementById("result");
+    const HEARTS = { cat: ["💛", "🧡", "🐟", "✨"], dog: ["💙", "🦴", "💖", "✨"] };
+    const MAX_STEPS = 4;
+
+    const stage = document.getElementById("stage");
+    const backBtn = document.getElementById("back");
+    const pawsEl = document.getElementById("paws");
+
+    let history = [];   // [{ node, option }]
+    let current = "start";
+
+    function styleFrom(lookId) {
+      const look = LOOKS[lookId] || {};
+      return Object.entries(look).map(([k, v]) => `${k}:${v}`).join(";");
+    }
+
+    function petSvg(pet, lookId, cls = "") {
+      return `<svg class="${cls}" viewBox="0 0 140 130" style="${styleFrom(lookId)}" aria-hidden="true"><use href="#${pet}"/></svg>`;
+    }
+
+    function escape(s) {
+      return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    }
+
+    function renderPaws(step) {
+      let html = "";
+      for (let i = 1; i <= MAX_STEPS; i++) html += `<span class="${i <= step ? "on" : "off"}">🐾</span>`;
+      pawsEl.innerHTML = html;
+    }
+
+    function renderQuestion() {
+      const node = TREE[current];
+      const n = node.options.length;
+      backBtn.hidden = history.length === 0;
+      renderPaws(history.length + 1);
+
+      stage.innerHTML = `
+        <section class="step ${node.big ? "big" : ""}">
+          <h1>${escape(node.q)}</h1>
+          <p class="sub">${escape(node.sub || "")}</p>
+          <div class="choices n${n}">
+            ${node.options.map((o, i) => `
+              <button class="choice" type="button" data-i="${i}" style="background:${o.bg}">
+                ${o.pet ? petSvg(o.pet, o.look) : `<span class="emoji" aria-hidden="true">${o.emoji}</span>`}
+                <span class="label">${escape(o.label)}</span>
+              </button>`).join("")}
+          </div>
+        </section>`;
+
+      stage.querySelectorAll(".choice").forEach(btn => {
+        btn.addEventListener("click", () => choose(node.options[+btn.dataset.i], btn));
+      });
+    }
+
+    function renderResult() {
+      const picks = history.map(h => h.option);
+      const team = picks[0];
+      const pet = team.pet;
+      const lookId = [...picks].reverse().find(p => p.look)?.look;
+      const noun = [...picks].reverse().find(p => p.noun)?.noun || "một bé cưng";
+      const desc = [...picks].reverse().find(p => p.desc)?.desc || "";
+
+      backBtn.hidden = false;
+      renderPaws(MAX_STEPS);
+
+      stage.innerHTML = `
+        <section class="step result">
+          ${petSvg(pet, lookId, "result-pet")}
+          <h2>${escape(team.tag)}</h2>
+          <div class="chips">${picks.slice(1).map(p => `<span class="chip">${escape(p.tag)}</span>`).join("")}</div>
+          <p>Bạn hợp với ${escape(noun)} ${escape(desc)} đó! ♡</p>
+          <button class="again" id="again" type="button">Làm lại từ đầu ↺</button>
+        </section>`;
+
+      document.getElementById("again").addEventListener("click", () => {
+        history = [];
+        current = "start";
+        renderQuestion();
+      });
+    }
 
     function burst(x, y, icons) {
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 10; i++) {
         const h = document.createElement("span");
         h.className = "heart";
         h.textContent = icons[i % icons.length];
-        h.style.left = (x + (Math.random() - 0.5) * 160) + "px";
+        h.style.left = (x + (Math.random() - 0.5) * 140) + "px";
         h.style.top = (y + (Math.random() - 0.5) * 40) + "px";
         h.style.animationDelay = (Math.random() * 0.3) + "s";
         document.body.appendChild(h);
@@ -317,30 +533,31 @@
       }
     }
 
-    document.querySelectorAll(".choice").forEach(btn => {
-      btn.addEventListener("click", e => {
-        const pick = btn.dataset.pick;
-        const c = copy[pick];
-        const r = btn.getBoundingClientRect();
-        burst(r.left + r.width / 2, r.top + r.height / 2, c.hearts);
+    function choose(option, btn) {
+      history.push({ node: current, option });
+      const team = history[0].option.pet;
+      const r = btn.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2, HEARTS[team]);
 
-        document.getElementById("result-use").setAttribute("href", "#" + pick);
-        document.getElementById("result-title").textContent = c.title;
-        document.getElementById("result-text").textContent = c.text;
+      setTimeout(() => {
+        if (option.next) {
+          current = option.next;
+          renderQuestion();
+        } else {
+          current = null;
+          renderResult();
+        }
+      }, 220);
+    }
 
-        try { localStorage.setItem("pet-pick", pick); } catch (_) {}
-
-        setTimeout(() => {
-          question.classList.add("hide");
-          result.classList.add("show");
-        }, 250);
-      });
+    backBtn.addEventListener("click", () => {
+      const last = history.pop();
+      if (!last) return;
+      current = last.node;
+      renderQuestion();
     });
 
-    document.getElementById("again").addEventListener("click", () => {
-      result.classList.remove("show");
-      question.classList.remove("hide");
-    });
+    renderQuestion();
   </script>
 </body>
 </html>
