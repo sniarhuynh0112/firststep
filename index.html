@@ -3,22 +3,344 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello Lộc!</title>
+  <title>Mèo hay Chó?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #fff4f7;
+      --dot: #ffd9e4;
+      --card: #ffffff;
+      --ink: #5b3a4a;
+      --ink-soft: #9a7486;
+      --pink: #ff8fb1;
+      --pink-deep: #f0628f;
+      --cat: #ffd27a;
+      --cat-deep: #f2a93b;
+      --dog: #b9e3ff;
+      --dog-deep: #5fb0e8;
+      --shadow: 0 8px 0 rgba(240, 98, 143, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
+      font-family: "Baloo 2", system-ui, sans-serif;
+      color: var(--ink);
+      background-color: var(--bg);
+      background-image: radial-gradient(var(--dot) 2.5px, transparent 2.5px);
+      background-size: 28px 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #f5f5f5;
-      color: #222;
+      padding: 24px 16px;
+      overflow-x: hidden;
     }
-    h1 { font-size: 3rem; }
+
+    .card {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      background: var(--card);
+      border: 4px solid var(--ink);
+      border-radius: 36px;
+      box-shadow: 0 10px 0 var(--ink);
+      padding: 40px 28px 32px;
+      text-align: center;
+    }
+
+    .badge {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-3deg);
+      background: var(--pink);
+      color: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 999px;
+      padding: 2px 18px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem, 6vw, 2.3rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 8px 0 6px;
+    }
+
+    .sub {
+      color: var(--ink-soft);
+      margin: 0 0 28px;
+      font-size: 1.05rem;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .choice {
+      font: inherit;
+      color: var(--ink);
+      cursor: pointer;
+      border: 4px solid var(--ink);
+      border-radius: 28px;
+      padding: 18px 10px 14px;
+      box-shadow: 0 7px 0 var(--ink);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .choice.cat { background: var(--cat); }
+    .choice.dog { background: var(--dog); }
+
+    .choice:hover { transform: translateY(-4px) rotate(-2deg); box-shadow: 0 11px 0 var(--ink); }
+    .choice.dog:hover { transform: translateY(-4px) rotate(2deg); }
+    .choice:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--ink); }
+    .choice:focus-visible { outline: 4px dashed var(--pink-deep); outline-offset: 4px; }
+
+    .choice svg { width: 100%; max-width: 130px; height: auto; }
+    .choice:hover svg { animation: wiggle 0.5s ease-in-out infinite; }
+
+    .choice .label {
+      font-size: clamp(1.4rem, 5vw, 1.8rem);
+      font-weight: 800;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(-6deg); }
+      75% { transform: rotate(6deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Result screen */
+    .result { display: none; }
+    .result.show { display: block; animation: pop 0.45s cubic-bezier(.2,1.6,.4,1); }
+    .question.hide { display: none; }
+
+    @keyframes pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .result-pet {
+      width: 170px;
+      height: auto;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    .result h2 {
+      font-size: clamp(1.5rem, 5.5vw, 2rem);
+      margin: 8px 0 4px;
+      font-weight: 800;
+    }
+
+    .result p { color: var(--ink-soft); margin: 0 0 24px; font-size: 1.1rem; }
+
+    .again {
+      font: inherit;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      background: var(--pink);
+      border: 4px solid var(--ink);
+      border-radius: 999px;
+      padding: 8px 28px;
+      box-shadow: 0 6px 0 var(--ink);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .again:hover { transform: translateY(-3px); box-shadow: 0 9px 0 var(--ink); }
+    .again:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--ink); }
+
+    .heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.6rem;
+      animation: rise 1.6s ease-out forwards;
+    }
+    @keyframes rise {
+      from { transform: translateY(0) scale(0.6); opacity: 1; }
+      to { transform: translateY(-220px) scale(1.2); opacity: 0; }
+    }
+
+    .paw {
+      position: absolute;
+      font-size: 1.6rem;
+      opacity: 0.55;
+    }
+    .paw.p1 { bottom: 14px; left: 18px; transform: rotate(-20deg); }
+    .paw.p2 { bottom: 14px; right: 18px; transform: rotate(20deg); }
+
+    @media (max-width: 400px) {
+      .card { padding: 36px 16px 28px; }
+      .choices { gap: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
-  <h1>Hello Lộc!</h1>
+  <!-- Chibi SVGs, reused on both screens -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="cat" viewBox="0 0 140 130">
+        <!-- ears -->
+        <path d="M22 58 L30 10 L62 38 Z" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M118 58 L110 10 L78 38 Z" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M32 44 L35 24 L49 37 Z" fill="#ff9fbf"/>
+        <path d="M108 44 L105 24 L91 37 Z" fill="#ff9fbf"/>
+        <!-- head -->
+        <ellipse cx="70" cy="76" rx="58" ry="48" fill="#ffe2a8" stroke="#5b3a4a" stroke-width="5"/>
+        <!-- stripes -->
+        <path d="M62 32 q8 8 0 16 M78 32 q-8 8 0 16" stroke="#f2a93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- eyes -->
+        <ellipse cx="46" cy="76" rx="11" ry="13" fill="#5b3a4a"/>
+        <ellipse cx="94" cy="76" rx="11" ry="13" fill="#5b3a4a"/>
+        <circle cx="50" cy="71" r="4.5" fill="#fff"/>
+        <circle cx="98" cy="71" r="4.5" fill="#fff"/>
+        <circle cx="43" cy="81" r="2" fill="#fff"/>
+        <circle cx="91" cy="81" r="2" fill="#fff"/>
+        <!-- blush -->
+        <ellipse cx="30" cy="94" rx="10" ry="6" fill="#ff9fbf" opacity="0.8"/>
+        <ellipse cx="110" cy="94" rx="10" ry="6" fill="#ff9fbf" opacity="0.8"/>
+        <!-- nose + mouth -->
+        <path d="M66 88 L74 88 L70 93 Z" fill="#f0628f" stroke="#5b3a4a" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M60 97 q5 6 10 0 q5 6 10 0" stroke="#5b3a4a" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <!-- whiskers -->
+        <path d="M6 82 L24 86 M8 96 L24 94 M134 82 L116 86 M132 96 L116 94" stroke="#5b3a4a" stroke-width="3.5" stroke-linecap="round"/>
+      </symbol>
+
+      <symbol id="dog" viewBox="0 0 140 130">
+        <!-- floppy ears -->
+        <path d="M30 34 C8 34 2 66 10 90 C16 104 32 96 34 80 Z" fill="#a8743f" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M110 34 C132 34 138 66 130 90 C124 104 108 96 106 80 Z" fill="#a8743f" stroke="#5b3a4a" stroke-width="5" stroke-linejoin="round"/>
+        <!-- head -->
+        <ellipse cx="70" cy="72" rx="50" ry="48" fill="#f3d6a8" stroke="#5b3a4a" stroke-width="5"/>
+        <!-- eye spot -->
+        <ellipse cx="94" cy="66" rx="17" ry="18" fill="#d9a86a"/>
+        <!-- eyes -->
+        <ellipse cx="48" cy="68" rx="10" ry="12" fill="#5b3a4a"/>
+        <ellipse cx="92" cy="68" rx="10" ry="12" fill="#5b3a4a"/>
+        <circle cx="52" cy="63" r="4.5" fill="#fff"/>
+        <circle cx="96" cy="63" r="4.5" fill="#fff"/>
+        <circle cx="45" cy="73" r="2" fill="#fff"/>
+        <circle cx="89" cy="73" r="2" fill="#fff"/>
+        <!-- blush -->
+        <ellipse cx="34" cy="88" rx="9" ry="5.5" fill="#ff9fbf" opacity="0.8"/>
+        <ellipse cx="106" cy="88" rx="9" ry="5.5" fill="#ff9fbf" opacity="0.8"/>
+        <!-- muzzle -->
+        <ellipse cx="70" cy="94" rx="22" ry="16" fill="#fff3e0" stroke="#5b3a4a" stroke-width="3.5"/>
+        <ellipse cx="70" cy="85" rx="9" ry="6.5" fill="#5b3a4a"/>
+        <circle cx="67" cy="83" r="2.2" fill="#fff"/>
+        <path d="M70 91 L70 97 M60 97 q10 8 20 0" stroke="#5b3a4a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <!-- tongue -->
+        <path d="M65 101 q5 12 10 0 Z" fill="#ff7a9c" stroke="#5b3a4a" stroke-width="2.5" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="card">
+    <div class="badge">✿ Khảo sát nhỏ ✿</div>
+
+    <section class="question" id="question">
+      <h1>Bạn thích mèo hay thích chó?</h1>
+      <p class="sub">Chọn một bé nha ~ (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
+
+      <div class="choices">
+        <button class="choice cat" data-pick="cat" type="button">
+          <svg viewBox="0 0 140 130" role="img" aria-label="Mèo chibi"><use href="#cat"/></svg>
+          <span class="label">Mèooo</span>
+        </button>
+        <button class="choice dog" data-pick="dog" type="button">
+          <svg viewBox="0 0 140 130" role="img" aria-label="Chó chibi"><use href="#dog"/></svg>
+          <span class="label">Choóo</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="result" id="result" aria-live="polite">
+      <svg class="result-pet" viewBox="0 0 140 130" aria-hidden="true"><use id="result-use" href="#cat"/></svg>
+      <h2 id="result-title"></h2>
+      <p id="result-text"></p>
+      <button class="again" id="again" type="button">Chọn lại ↺</button>
+    </section>
+
+    <span class="paw p1" aria-hidden="true">🐾</span>
+    <span class="paw p2" aria-hidden="true">🐾</span>
+  </main>
+
+  <script>
+    const copy = {
+      cat: {
+        title: "Team Mèooo! 🐱",
+        text: "Meo meo~ Bé mèo đang dụi đầu cảm ơn bạn đó!",
+        hearts: ["💛", "🧡", "🐟", "✨"]
+      },
+      dog: {
+        title: "Team Choóo! 🐶",
+        text: "Gâu gâu~ Bé chó vẫy đuôi tít mù vì bạn rồi!",
+        hearts: ["💙", "🦴", "💖", "✨"]
+      }
+    };
+
+    const question = document.getElementById("question");
+    const result = document.getElementById("result");
+
+    function burst(x, y, icons) {
+      for (let i = 0; i < 12; i++) {
+        const h = document.createElement("span");
+        h.className = "heart";
+        h.textContent = icons[i % icons.length];
+        h.style.left = (x + (Math.random() - 0.5) * 160) + "px";
+        h.style.top = (y + (Math.random() - 0.5) * 40) + "px";
+        h.style.animationDelay = (Math.random() * 0.3) + "s";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 2000);
+      }
+    }
+
+    document.querySelectorAll(".choice").forEach(btn => {
+      btn.addEventListener("click", e => {
+        const pick = btn.dataset.pick;
+        const c = copy[pick];
+        const r = btn.getBoundingClientRect();
+        burst(r.left + r.width / 2, r.top + r.height / 2, c.hearts);
+
+        document.getElementById("result-use").setAttribute("href", "#" + pick);
+        document.getElementById("result-title").textContent = c.title;
+        document.getElementById("result-text").textContent = c.text;
+
+        try { localStorage.setItem("pet-pick", pick); } catch (_) {}
+
+        setTimeout(() => {
+          question.classList.add("hide");
+          result.classList.add("show");
+        }, 250);
+      });
+    });
+
+    document.getElementById("again").addEventListener("click", () => {
+      result.classList.remove("show");
+      question.classList.remove("hide");
+    });
+  </script>
 </body>
 </html>

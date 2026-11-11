@@ -1,40 +1,32 @@
-# Firststep
+# Firststep · Khảo sát Mèo hay Chó 🐱🐶
 
-Bước đầu tiên trên GitHub — repo dùng để làm quen với Git, GitHub và lưu trữ các dự án đầu tiên.
+Một trang khảo sát người dùng nhỏ xinh với phong cách chibi: **"Bạn thích mèo hay thích chó?"**
 
-## Giới thiệu
+## Tính năng
 
-Đây là repo khởi đầu của [@sniarhuynh0112](https://github.com/sniarhuynh0112). Nội dung sẽ được bổ sung dần trong quá trình học và làm việc.
+- Câu hỏi với 2 lựa chọn: **Mèooo** và **Choóo**, kèm hình mèo và chó chibi vẽ bằng SVG
+- Hiệu ứng lắc lư khi rê chuột và tim bay khi chọn
+- Màn hình cảm ơn theo lựa chọn, có nút **Chọn lại**
+- Hiển thị tốt trên điện thoại
 
 ## Cấu trúc
 
 ```
 Firststep/
-└── README.md   # Trang giới thiệu repo
+├── index.html   # Trang khảo sát (HTML + CSS + JS trong một file)
+└── README.md
 ```
 
-## Bắt đầu
+## Chạy thử
 
-Clone repo về máy:
-
-```bash
-git clone git@github.com:sniarhuynh0112/Firststep.git
-cd Firststep
-```
-
-Cập nhật thay đổi lên GitHub:
-
-```bash
-git add .
-git commit -m "Mô tả thay đổi"
-git push
-```
+Mở trực tiếp `index.html` bằng trình duyệt, hoặc xem qua GitHub Pages:
+`https://sniarhuynh0112.github.io/firststep/` (cần bật Pages và để repo ở chế độ public).
 
 ## Kế hoạch
 
-- [x] Tạo repo và trang README
-- [ ] Thêm dự án / tài liệu đầu tiên
-- [ ] Bổ sung hướng dẫn sử dụng chi tiết
+- [x] Trang câu hỏi đầu tiên
+- [ ] Lưu và thống kê kết quả khảo sát
+- [ ] Thêm các câu hỏi tiếp theo
 
 ## Tác giả
 
